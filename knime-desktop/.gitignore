@@ -1,0 +1,9 @@
+# Ignore all
+*
+
+# Excepted
+!.gitignore
+!ChangeLog
+!LICENSE
+!PKGBUILD
+!knime.sh
