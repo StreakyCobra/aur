@@ -1,8 +1,8 @@
 # Maintainer: Fabien Dubosson <fabien dot dubosson at gmail dot com>
 pkgname=tagsistant-svn
 _pkgname=tagsistant
-pkgver=445
-pkgrel=2
+pkgver=454
+pkgrel=1
 pkgdesc="Semantic File System for Linux kernels"
 arch=('i686' 'x86_64')
 url="https://www.tagsistant.net/"
@@ -11,6 +11,7 @@ depends=('fuse' 'libdbi' 'libdbi-drivers' 'sqlite2' 'sqlite' 'libmariadbclient' 
 makedepends=('subversion')
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
+install=tagsistant.install
 source=("${_pkgname}::svn+http://svn.gna.org/svn/tagfs/trunk")
 sha1sums=('SKIP')
 
