@@ -9,7 +9,7 @@ license=('MIT')
 depends=('bash>4.0' 'git')
 changelog="ChangeLog"
 source=("https://github.com/StreakyCobra/${pkgname}/archive/${pkgver}.tar.gz")
-md5sums=('SKIP')
+md5sums=('429630b7892d70486c9eb1f1a4051ab7')
 
 package() {
 	cd "$srcdir/$pkgname-$pkgver"
