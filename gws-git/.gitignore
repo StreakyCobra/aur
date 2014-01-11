@@ -1,0 +1,7 @@
+# Ignore all
+*
+
+# Excepted
+!.gitignore
+!ChangeLog
+!PKGBUILD
