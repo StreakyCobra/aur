@@ -1,0 +1,29 @@
+# Maintainer: Fabien Dubosson <fabien.dubosson@gmail.com>
+pkgname=budgetwarrior
+pkgver=0.2.1.r35.g23e40df
+pkgrel=1
+pkgdesc="Simple command line utility to helps keeping track of your expenses and the state of your budget."
+arch=('i686' 'x86_64')
+url="https://github.com/wichtounet/budgetwarrior"
+license=('MIT')
+depends=('boost' 'util-linux')
+makedepends=('cmake')
+changelog="ChangeLog"
+source=("budgetwarrior::git+https://github.com/wichtounet/budgetwarrior.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${pkgname}"
+  git describe --long --tags | sed -E 's/([^-]*-g)/r\1/;s/-/./g'
+}
+
+build() {
+    cd "${srcdir}/${pkgname}"
+    cmake .
+    make
+}
+
+package() {
+    cd "${srcdir}/${pkgname}"
+    make DESTDIR="${pkgdir}/" install
+}
