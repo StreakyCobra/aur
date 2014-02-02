@@ -1,0 +1,4 @@
+# quilt
+**/.pc/
+**/patches/series
+**/patches/*.patch~
