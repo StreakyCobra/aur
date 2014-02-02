@@ -1,6 +1,12 @@
 protect:
 	@echo ">>> Precise a target"
 
+patches:
+	@for d in **/patches/*.patch ; do \
+		cp "$${d}" "$$(dirname $$(dirname $${d}))/" ; \
+	done
+
+
 clean:
 	# Built packages and log
 	rm **/src -rf
