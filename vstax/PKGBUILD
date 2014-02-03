@@ -7,7 +7,8 @@ pkgdesc="Software to fill the tax forms of the canton of Valais"
 arch=('i686' 'x86_64')
 url="http://www.vs.ch/vstax"
 license=('unknown')
-depends=('java-runtime')
+depends=('java-runtime' 'shared-mime-info' 'desktop-file-utils')
+install="vstax.install"
 changelog="ChangeLog"
 [ "${CARCH}" = "i686" ] && _CARCH='i386'
 [ "${CARCH}" = "x86_64" ] && _CARCH='64'
@@ -49,7 +50,7 @@ package() {
 
     # Link executable to /usr/bin
     install -d "${pkgdir}/usr/bin/"
-    ln -s "/usr/share/java/${_appname}/${_appname}.sh" "${pkgdir}/usr/bin/${_appname}"
+    mv "${pkgdir}/usr/share/java/${_appname}/${_appname}.sh" "${pkgdir}/usr/bin/${_appname}"
 
     # Remove the included java environment
     rm -Rf "${pkgdir}/usr/share/java/${_appname}/jre"
