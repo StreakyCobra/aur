@@ -1,4 +1,14 @@
-# quilt
-**/.pc/
-**/patches/series
-**/patches/*.patch~
+# Build files
+*/src/
+*/pkg/
+*/*.log
+*/*.tar.xz
+
+# Sources
+*/*.tar.gz
+*/*.deb
+
+# Quilt
+*/.pc
+*/patches/series
+*/patches/*.patch~

@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 protect:
 	@echo ">>> Precise a target"
 
@@ -7,13 +9,15 @@ verify-patches:
 	done
 
 clean:
-	# Built packages and log
-	rm **/src -rf
-	rm **/pkg -rf
-	rm **/*.log -rf
-	rm **/*.tar.xz -rf
-	rm **/*.tar.gz -rf
-	# Quilt
-	rm **/.pc -rf
-	rm **/patches/series -rf
-	rm **/patches/*.patch~ -rf
+	@echo -e "\e[91mThe following files will be cleaned:\e[0m"
+	@git clean -n -d -x
+	@echo -en "\e[91mAre you sure? [y/n/i]\e[0m "
+	@read -n 1 -r REPLY; \
+	echo ''; \
+	if [[ $${REPLY} =~ ^[Ii]$$  ]] ; then \
+		git clean -d -x -i; \
+	elif [[ $${REPLY} =~ ^[Yy]$$  ]] ; then \
+		git clean -d -x -f; \
+	else \
+		echo -e "\e[93mAborting…\e[0m"; \
+	fi
