@@ -14,7 +14,7 @@ changelog="ChangeLog"
 source=("http://www.vs.ch/home2/${pkgname}/linux/${pkgname}${_year:2:2}/${pkgname}${_year}_${_CARCH}.deb"
         "archlinux.patch")
 md5sums=(''
-         'SKIP')
+         '9b1e26ef419b013945c6ea3258b4a064')
 [ "${CARCH}" = "i686" ] && md5sums[0]='9949e6b72e0e9b0b4b5938592db6829a'
 [ "${CARCH}" = "x86_64" ] && md5sums[0]='9631d865e423ee5c2496478ba76d4df0'
 
