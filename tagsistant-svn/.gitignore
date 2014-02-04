@@ -1,7 +1,0 @@
-# Ignore all
-*
-
-# Excepted
-!.gitignore
-!PKGBUILD
-!tagsistant.install
