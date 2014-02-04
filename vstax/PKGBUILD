@@ -1,4 +1,5 @@
 # Maintainer: Fabien Dubosson <fabien.dubosson@gmail.com>
+
 pkgname="vstax"
 _year="2013"
 pkgver="${_year}.1.0.3"
@@ -55,3 +56,5 @@ package() {
     # Remove the included java environment
     rm -Rf "${pkgdir}/usr/share/java/${_appname}/jre"
 }
+
+# vim:set ts=4 sw=4 et:

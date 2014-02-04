@@ -1,4 +1,5 @@
 # Maintainer: Fabien Dubosson <fabien.dubosson@gmail.com>
+
 pkgname="gws"
 pkgver="0.1.3"
 pkgrel="3"
@@ -26,3 +27,5 @@ package() {
     install -D -m755 'completions/zsh' "${pkgdir}/usr/share/zsh/site-functions/_${pkgname}"
     install -D -m755 'completions/bash' "${pkgdir}/usr/share/bash-completion/completions/${pkgname}"
 }
+
+# vim:set ts=4 sw=4 et:
