@@ -1,14 +1,18 @@
 # Build files
-*/src/
-*/pkg/
 */*.log
 */*.tar.xz
 
-# Sources
-*/*.tar.gz
+# Sources files
 */*.deb
+*/*.tar.gz
 
-# Quilt
-*/.pc
-*/patches/series
-*/patches/*.patch~
+# Patches copied to root
+*/*.patch
+
+# All sub-folders
+*/*/
+*/.*/
+
+# Except patches
+!*/patches/
+!*/patches/*.patch
