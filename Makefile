@@ -15,7 +15,7 @@ install: build
 		( cd $${dir} && aura -U $${name} ); \
 	done
 
-source:
+source: update-patches
 	@for f in `find -name PKGBUILD `; do \
 		( cd $$(dirname $$f) && makepkg -S ); \
 	done
@@ -39,7 +39,7 @@ burp:
 		echo -e "\e[93mAborting…\e[0m"; \
 	fi
 
-verify-patches:
+update-patches:
 	@for d in **/patches/*.patch; do \
 		cp "$${d}" "$$(dirname $$(dirname $${d}))/"; \
 	done
