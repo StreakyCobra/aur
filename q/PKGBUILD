@@ -1,0 +1,28 @@
+# Maintainer: Fabien Dubosson <fabien.dubosson@gmail.com>
+
+pkgname="q"
+pkgver="1.2.0"
+pkgrel="1"
+pkgdesc="SQL-like queries on tabular text data, including joins and subqueries"
+url="https://github.com/harelba/q"
+license=('GPL3')
+arch=('any')
+depends=('python')
+changelog="ChangeLog"
+source=("https://github.com/harelba/${pkgname}/archive/${pkgver}.tar.gz")
+md5sums=('61a65cbb3afeff1a58e136ab9afcf372')
+
+prepare() {
+    cd "${srcdir}/${pkgname}-${pkgver}/"
+
+    # Replace shell bang with python2. Not compatible with python3 yet.
+    sed -e '0,/python/{s/python/python2/}' -i ${pkgname}
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}/"
+
+    install -D -m755 "${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
+}
+
+# vim:set ts=4 sw=4 et:
