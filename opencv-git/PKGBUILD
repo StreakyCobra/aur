@@ -28,7 +28,7 @@ source=("${pkgname%-git}::git+http://github.com/Itseez/opencv.git"
         'fsh.patch')
 md5sums=('SKIP'
          '5034e6b59e9bf1911925b7c40484f8f3'
-         '040ced073323c3be3c0f8653d3fe273e')
+         '4d839b617b63e8f7cc437491aaae8603')
 
 _cmakeopts=('-D WITH_OPENCL=ON'
             '-D WITH_OPENGL=ON'
