@@ -1,0 +1,227 @@
+Index: wfdb_new/src/wfdb-10.5.23/app/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/app/Makefile
++++ wfdb_new/src/wfdb-10.5.23/app/Makefile
+@@ -148,11 +148,11 @@ CWLOPT = -Wl,--no-as-needed,-rpath,$(LIB
+ 
+ # CFLAGS is the set of C compiler options.  CFLAGS should always include
+ # CCDEFS.
+-CFLAGS = $(MFLAGS) -g -O $(CCDEFS) $(LC) -I$(INCDIR) $(CWLOPT)
++CFLAGS = $(MFLAGS) -g -O $(CCDEFS) $(LC) -I$(INCDIR) -I.. $(CWLOPT)
+ 
+ # LDFLAGS is appended to the C compiler command line to specify loading the
+ # WFDB library.
+-LDFLAGS = -L$(LIBDIR) -lwfdb $(LL)
++LDFLAGS = -L$(LIBDIR) -L../lib -lwfdb $(LL)
+ 
+ # WFDBLIB is the name of the standard WFDB library.  In order to access it via
+ # `-lwfdb', WFDBLIB should be `libwfdb.a'.
+@@ -280,9 +280,10 @@ MFILES = Makefile
+ # `make all': build applications
+ all:	$(XFILES)
+ 	$(STRIP) $(XFILES)
++	sed -i s+/usr/local/database+$(DBDIR)+g $(SCRIPTS)
+ 
+ # `make' or `make install':  build and install applications
+-install:	all $(BINDIR) $(PSPDIR) scripts
++install:	$(BINDIR) $(PSPDIR)
+ 	rm -f pschart psfd pschart.exe psfd.exe
+ 	$(MAKE) pschart psfd	# be sure compiled-in paths are up-to-date
+ 	$(STRIP) pschart psfd
+@@ -290,19 +291,14 @@ install:	all $(BINDIR) $(PSPDIR) scripts
+ 	../install.sh $(BINDIR) $(XFILES)
+ 	cp $(PSFILES) $(PSPDIR)
+ 	cd $(PSPDIR); $(SETPERMISSIONS) $(PSFILES)
++	cp $(SCRIPTS) $(BINDIR)
++	cd $(BINDIR); $(SETPERMISSIONS) *setwfdb; $(SETXPERMISSIONS) pnwlogin
+ 
+ # 'make collect': retrieve the installed applications
+ collect:
+ 	../conf/collect.sh $(BINDIR) $(XFILES) $(SCRIPTS)
+ 	../conf/collect.sh $(PSPDIR) $(PSFILES)
+ 
+-# `make scripts': install customized scripts for setting WFDB path
+-scripts:
+-	sed s+/usr/local/database+$(DBDIR)+g <setwfdb >$(BINDIR)/setwfdb
+-	sed s+/usr/local/database+$(DBDIR)+g <cshsetwfdb >$(BINDIR)/cshsetwfdb
+-	sed s+/usr/local/database+$(DBDIR)+g <pnwlogin >$(BINDIR)/pnwlogin
+-	cd $(BINDIR); $(SETPERMISSIONS) *setwfdb; $(SETXPERMISSIONS) pnwlogin
+-
+ uninstall:
+ 	../uninstall.sh $(PSPDIR) $(PSFILES)
+ 	../uninstall.sh $(BINDIR) $(XFILES) $(SCRIPTS)
+Index: wfdb_new/src/wfdb-10.5.23/convert/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/convert/Makefile
++++ wfdb_new/src/wfdb-10.5.23/convert/Makefile
+@@ -148,11 +148,11 @@ CWLOPT = -Wl,--no-as-needed,-rpath,$(LIB
+ 
+ # CFLAGS is the set of C compiler options.  CFLAGS should always include
+ # CCDEFS.
+-CFLAGS = $(MFLAGS) -g -O $(CCDEFS) $(LC) -I$(INCDIR) $(CWLOPT)
++CFLAGS = $(MFLAGS) -g -O $(CCDEFS) $(LC) -I$(INCDIR) -I.. $(CWLOPT)
+ 
+ # LDFLAGS is appended to the C compiler command line to specify loading the
+ # WFDB library.
+-LDFLAGS = -L$(LIBDIR) -lwfdb $(LL)
++LDFLAGS = -L$(LIBDIR) -L../lib -lwfdb $(LL)
+ 
+ # WFDBLIB is the name of the standard WFDB library.  In order to access it via
+ # `-lwfdb', WFDBLIB should be `libwfdb.a'.
+@@ -269,7 +269,7 @@ all:	$(XFILES)
+ 	$(STRIP) $(XFILES)
+ 
+ # `make' or `make install':  build and install applications
+-install:	$(BINDIR) all $(SCRIPTS)
++install:	$(BINDIR) $(SCRIPTS)
+ 	$(SETXPERMISSIONS) $(XFILES) $(SCRIPTS)
+ 	../install.sh $(BINDIR) $(XFILES) $(SCRIPTS)
+ 
+Index: wfdb_new/src/wfdb-10.5.23/psd/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/psd/Makefile
++++ wfdb_new/src/wfdb-10.5.23/psd/Makefile
+@@ -258,25 +258,19 @@ SCRIPTS = hrfft hrlomb hrmem hrplot plot
+ # `make all': build applications
+ all:	$(XFILES)
+ 	$(STRIP) $(XFILES)
++	sed -i s+BINDIR+$(BINDIR)+g $(SCRIPTS)
+ 
+ # `make' or `make install':  build and install applications
+-install:	$(BINDIR) all scripts
++install:	$(BINDIR)
+ 	$(SETXPERMISSIONS) $(XFILES)
+ 	../install.sh $(BINDIR) $(XFILES)
++	cp $(SCRIPTS) $(BINDIR)
++	cd $(BINDIR); $(SETXPERMISSIONS) $(SCRIPTS)
+ 
+ # 'make collect': retrieve the installed applications
+ collect:
+ 	../conf/collect.sh $(BINDIR) $(XFILES) $(SCRIPTS)
+ 
+-# `make scripts': customize and install scripts
+-scripts:
+-	sed s+BINDIR+$(BINDIR)+g <hrfft >$(BINDIR)/hrfft
+-	sed s+BINDIR+$(BINDIR)+g <hrlomb >$(BINDIR)/hrlomb
+-	sed s+BINDIR+$(BINDIR)+g <hrmem >$(BINDIR)/hrmem
+-	sed s+BINDIR+$(BINDIR)+g <hrplot >$(BINDIR)/hrplot
+-	cp plot2d plot3d $(BINDIR)
+-	cd $(BINDIR); $(SETXPERMISSIONS) $(SCRIPTS)
+-
+ uninstall:
+ 	../uninstall.sh $(BINDIR) $(XFILES) $(SCRIPTS)
+ 
+Index: wfdb_new/src/wfdb-10.5.23/xml/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/xml/Makefile
++++ wfdb_new/src/wfdb-10.5.23/xml/Makefile
+@@ -144,11 +144,11 @@ CWLOPT = -Wl,--no-as-needed,-rpath,$(LIB
+ 
+ # CFLAGS is the set of C compiler options.  CFLAGS should always include
+ # CCDEFS.
+-CFLAGS = $(MFLAGS) -g -O $(CCDEFS) $(LC) -I$(INCDIR) $(CWLOPT)
++CFLAGS = $(MFLAGS) -g -O $(CCDEFS) $(LC) -I$(INCDIR) -I.. $(CWLOPT)
+ 
+ # LDFLAGS is appended to the C compiler command line to specify loading the
+ # WFDB library.
+-LDFLAGS = -L$(LIBDIR) -lwfdb $(LL)
++LDFLAGS = -L$(LIBDIR) -L../lib -lwfdb $(LL)
+ 
+ # WFDBLIB is the name of the standard WFDB library.  In order to access it via
+ # `-lwfdb', WFDBLIB should be `libwfdb.a'.
+@@ -263,7 +263,7 @@ all:	$(XFILES)
+ 	$(STRIP) $(XFILES)
+ 
+ # `make' or `make install':  build and install applications
+-install:	all $(BINDIR)
++install:	$(BINDIR)
+ 	$(SETXPERMISSIONS) $(XFILES)
+ 	../install.sh $(BINDIR) $(XFILES)
+ 
+Index: wfdb_new/src/wfdb-10.5.23/lib/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/lib/Makefile
++++ wfdb_new/src/wfdb-10.5.23/lib/Makefile
+@@ -227,11 +227,8 @@ all:	setup $(OFILES)
+ 
+ # `make install':  install the WFDB library and headers
+ install:	$(INCLUDES) $(LIBDIR)
+-	$(MAKE) clean	    # force recompilation since config may have changed
+-	$(MAKE) all
+-	cp $(WFDBLIB) $(LIBDIR) 
++	cp $(WFDBLIB) $(LIBDIR)
+ 	$(SETLPERMISSIONS) $(LIBDIR)/$(WFDBLIB)
+-	$(MAKE) lib-post-install 2>/dev/null
+ 
+ # 'make collect':  retrieve the installed WFDB library and headers
+ collect:
+Index: wfdb_new/src/wfdb-10.5.23/data/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/data/Makefile
++++ wfdb_new/src/wfdb-10.5.23/data/Makefile
+@@ -270,16 +270,16 @@ collect:
+ 	../conf/collect.sh $(DBDIR) $(DBFILES) wfdbcal dbcal
+ 	cd pipe; ../../conf/collect.sh $(DBDIR)/pipe *
+ 	cd tape; ../../conf/collect.sh $(DBDIR)/tape *
+-	
++
+ uninstall:
+ 	../uninstall.sh $(DBDIR) $(DBFILES) dbcal
+ 
+ $(DBDIR):
+-	mkdir $(DBDIR); $(SETDPERMISSIONS) $(DBDIR)
++	mkdir -p $(DBDIR); $(SETDPERMISSIONS) $(DBDIR)
+ $(DBDIR)/pipe:
+-	mkdir $(DBDIR)/pipe; $(SETDPERMISSIONS) $(DBDIR)/pipe
++	mkdir -p $(DBDIR)/pipe; $(SETDPERMISSIONS) $(DBDIR)/pipe
+ $(DBDIR)/tape:
+-	mkdir $(DBDIR)/tape; $(SETDPERMISSIONS) $(DBDIR)/tape
++	mkdir -p $(DBDIR)/tape; $(SETDPERMISSIONS) $(DBDIR)/tape
+ 
+ listing:
+ 	$(PRINT) README Makefile makefile.dos
+Index: wfdb_new/src/wfdb-10.5.23/Makefile
+===================================================================
+--- wfdb_new.orig/src/wfdb-10.5.23/Makefile
++++ wfdb_new/src/wfdb-10.5.23/Makefile
+@@ -260,20 +260,28 @@ lib-post-uninstall:
+ 
+ # 'make' or 'make all': compile the WFDB applications without installing them
+ all:		config.cache
+-	$(MAKE) WFDBROOT=`pwd`/build install check
++	cd lib;	     $(MAKE) all
++	cd app;      $(MAKE) all
++	cd convert;  $(MAKE) all
++	cd data;     $(MAKE) all
++	cd psd;      $(MAKE) all
++	-( cd wave;  $(MAKE) all )
++	cd waverc;   $(MAKE) all
++	-( cd xml;   $(MAKE) all )
++	test -d doc && ( cd doc; $(MAKE) all )
+ 
+ # 'make install': compile and install the WFDB software package
+-install:	config.cache
+-	cd lib;	     $(MAKE) clean install
+-	cd app;      $(MAKE) clean install
+-	cd convert;  $(MAKE) clean install
+-	cd data;     $(MAKE) clean install
+-	cd fortran;  $(MAKE) clean install
+-	cd psd;      $(MAKE) clean install
+-	-( cd wave;  $(MAKE) clean install )
+-	cd waverc;   $(MAKE) clean install
+-	-( cd xml;   $(MAKE) clean install )
+-	test -d doc && ( cd doc; $(MAKE) clean install )
++install:
++	cd lib;	     $(MAKE) install
++	cd app;      $(MAKE) install
++	cd convert;  $(MAKE) install
++	cd data;     $(MAKE) install
++	cd fortran;  $(MAKE) install
++	cd psd;      $(MAKE) install
++	-( cd wave;  $(MAKE) install )
++	cd waverc;   $(MAKE) install
++	-( cd xml;   $(MAKE) install )
++	test -d doc && ( cd doc; $(MAKE) install )
+ 
+ # 'make collect': collect the installed files into /tmp/wfdb/
+ collect:
