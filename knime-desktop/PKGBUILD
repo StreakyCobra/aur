@@ -1,7 +1,7 @@
 # Maintainer: Fabien Dubosson <fabien.dubosson@gmail.com>
 
 pkgname="knime-desktop"
-_pkgname="knime"
+_upstream_name="knime"
 pkgver="2.10.0"
 pkgrel="1"
 pkgdesc="A user-friendly graphical workbench for the entire data analysis process"
@@ -16,7 +16,7 @@ options=('!emptydirs')
 changelog="ChangeLog"
 _CARCH="${CARCH}"
 [ "${CARCH}" = 'i686' ] && _CARCH='x86'
-source=("http://www.knime.org/knime_downloads/linux/${_pkgname}_${pkgver}.linux.gtk.${_CARCH}.tar.gz"
+source=("http://www.knime.org/knime_downloads/linux/${_upstream_name}_${pkgver}.linux.gtk.${_CARCH}.tar.gz"
         'knime.sh'
         'knime-desktop.desktop'
         'LICENSE')
@@ -32,7 +32,7 @@ package() {
 
     msg2 "Copy the program"
     install -d -m755 "${pkgdir}/${installpath}"
-    cp -r "${srcdir}/${_pkgname}_${pkgver}" "${pkgdir}/${programpath}"
+    cp -r "${srcdir}/${_upstream_name}_${pkgver}" "${pkgdir}/${programpath}"
 
     msg2 "Copy the launcher and the license"
     install -D -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
@@ -42,7 +42,7 @@ package() {
     msg2 "Install the desktop specification"
     install -D -m644 "${srcdir}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
     install -d -m755 "${pkgdir}/usr/share/pixmaps"
-    convert "${srcdir}/${_pkgname}_${pkgver}/icon.xpm" "${pkgdir}/usr/share/pixmaps/${pkgname}.png"
+    convert "${srcdir}/${_upstream_name}_${pkgver}/icon.xpm" "${pkgdir}/usr/share/pixmaps/${pkgname}.png"
 
     msg2 "Remove the provided libraries (cairo, jre)"
     rm    "${pkgdir}/${programpath}/libcairo-swt.so"  # Provided by `cairo`
