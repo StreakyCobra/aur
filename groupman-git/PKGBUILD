@@ -2,7 +2,7 @@
 
 pkgname="groupman-git"
 _pkgname="groupman"
-pkgver="0.1.0"
+pkgver="0.0.1"
 pkgrel="1"
 pkgdesc="Gather your Arch Linux packages in groups to simplify their management."
 url="https://github.com/StreakyCobra/groupman"
