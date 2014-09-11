@@ -7,7 +7,7 @@
 # Contributor: Tobias Powalowski <tpowa@archlinux.org>
 
 pkgname="opencv-git"
-pkgver=3.0.ocl.tp2.r453.gae2b0b0
+pkgver=3.0.0.alpha.r342.g71edf1b
 pkgrel=1
 pkgdesc="Open Source Computer Vision Library"
 url="http://opencv.org/"
@@ -15,8 +15,8 @@ license=('BSD')
 arch=('i686' 'x86_64')
 depends=('gstreamer0.10-base' 'intel-tbb' 'openexr'
          'xine-lib' 'libdc1394' 'gtkglext')
-makedepends=('git' 'cmake' 'python2-numpy' 'mesa' 'eigen2')
-optdepends=('eigen2'
+makedepends=('git' 'cmake' 'python2-numpy' 'mesa' 'eigen')
+optdepends=('eigen'
             'libcl: For coding with OpenCL'
             'python2-numpy: Python 2.x interface')
 options=('staticlibs')
