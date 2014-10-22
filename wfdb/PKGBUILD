@@ -17,13 +17,13 @@ changelog="ChangeLog"
 source=("http://www.physionet.org/physiotools/${pkgname}.tar.gz"
         "correct-makefiles.patch")
 md5sums=('0c4dd0bc86408709fe2364f6703c5c66'
-         '08559a75a18b89a78cd038f833e57e7b')
+         'SKIP')
 
 prepare() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     # Fixing these Makefiles to install to a different directory from the one being compiled for was... an adventure.
-    patch -p3 -i "$srcdir/correct-makefiles.patch"
+    #patch -p3 -i "$srcdir/correct-makefiles.patch"
 }
 
 build() {
@@ -32,8 +32,8 @@ build() {
     ./configure --prefix=/usr
 
     # From previous PKGBUILD (don't know why it is required)
-    ln -s lib wfdb
-    (cd lib && ln -s libwfdb.so.10.5 libwfdb.so)
+    #ln -s lib wfdb
+    #(cd lib && ln -s libwfdb.so.10.5 libwfdb.so)
 
     make
 }
