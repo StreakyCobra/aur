@@ -26,6 +26,24 @@ build() {
     unset CHOST COMMAND_MODE CPPFLAGS CXXFLAGS MAKEFLAGS
 
     make
+
+    builddir="${srcdir}/${pkgname}-${pkgver}/build"
+
+    # Adapt some compile-time hardcoded paths
+    sed -i "s+${builddir}+/usr/share/wfdb+g" \
+        "${builddir}/bin/setwfdb" \
+        "${builddir}/bin/cshsetwfdb"
+    sed -i "s+${builddir}+/usr+g" \
+        "${builddir}/bin/hrfft"\
+        "${builddir}/bin/hrlomb"\
+        "${builddir}/bin/hrmem"\
+        "${builddir}/bin/hrplot"
+
+    # Remove RPATH and RUNPATH from executables
+    for ex in `find "${builddir}/bin/" -exec file {} \; | grep ELF | cut -d':' -f1`;
+    do
+        chrpath -d "$ex"
+    done
 }
 
 package_wfdb() {
@@ -37,22 +55,6 @@ package_wfdb() {
     cp -R "build/lib" "${pkgdir}/usr/"
     cp -R "build/lib64" "${pkgdir}/usr/"
     cp -R "build/share" "${pkgdir}/usr/"
-
-    # Adapt some compile-time hardcoded paths
-    sed -i "s+${srcdir}/${pkgbase}-${pkgver}/build+/usr/share/wfdb+g" \
-        "${pkgdir}/usr/bin/setwfdb" \
-        "${pkgdir}/usr/bin/cshsetwfdb"
-    sed -i "s+${srcdir}/${pkgbase}-${pkgver}/build+/usr+g" \
-        "${pkgdir}/usr/bin/hrfft"\
-        "${pkgdir}/usr/bin/hrlomb"\
-        "${pkgdir}/usr/bin/hrmem"\
-        "${pkgdir}/usr/bin/hrplot"
-
-    # Remove RPATH and RUNPATH from executables
-    for ex in `find "${pkgdir}/usr/bin/" -exec file {} \; | grep ELF | cut -d':' -f1`;
-    do
-        chrpath -d "$ex"
-    done
 }
 
 package_wfdb-samples() {
