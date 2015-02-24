@@ -9,7 +9,7 @@
 # Contributor: Tobias Powalowski <tpowa@archlinux.org>
 
 pkgname="opencv-git"
-pkgver=3.0.0.beta.r273.gb2a5e66
+pkgver=3.0.0.beta.r557.gbdb088d
 pkgrel=1
 pkgdesc="Open Source Computer Vision Library"
 url="http://opencv.org/"
