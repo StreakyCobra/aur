@@ -1,7 +1,10 @@
 AUR
 ===
 
-This repository contains the sources of AUR packages that I manage.
+**NOTE:** *This repository is depreciated, it will be removed after the
+transition to AUR4.*
+
+This repository contains the sources of AUR packages that I manage.
 
 What is AUR
 -----------
